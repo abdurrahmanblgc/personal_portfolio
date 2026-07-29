@@ -339,16 +339,27 @@
     .menu-toggle {
       display: none;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       gap: 5px;
-      background: none;
-      border: none;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
       cursor: pointer;
-      padding: 4px;
+      padding: 0;
+      transition: var(--transition);
+    }
+
+    .menu-toggle:hover {
+      border-color: rgba(129, 140, 248, 0.3);
+      background: rgba(99, 102, 241, 0.08);
     }
 
     .menu-toggle span {
       display: block;
-      width: 24px;
+      width: 20px;
       height: 2px;
       background: var(--text);
       transition: var(--transition);
@@ -357,6 +368,25 @@
 
     body.menu-open {
       overflow: hidden;
+    }
+
+    .nav-overlay {
+      display: none;
+    }
+
+    .mobile-nav-header {
+      display: none;
+    }
+
+    @keyframes navItemIn {
+      from {
+        opacity: 0;
+        transform: translateX(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     /* Hero */
@@ -1647,15 +1677,146 @@
       .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: min(300px, 85vw);
-        height: 100vh;
-        background: var(--bg-elevated);
+        right: 0;
+        width: min(320px, 88vw);
+        height: 100dvh;
+        background: rgba(12, 12, 20, 0.98);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 96px 28px 36px;
+        gap: 0;
+        transform: translateX(100%);
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        border-left: 1px solid rgba(129, 140, 248, 0.12);
+        box-shadow: -24px 0 64px rgba(0, 0, 0, 0.55);
+        z-index: 1000;
+        list-style: none;
+      }
+
+      .nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 5, 12, 0.6);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+      }
+
+      .nav-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .mobile-nav-header {
+        display: block;
+        margin-bottom: 28px;
+        padding-bottom: 0;
+      }
+
+      .mobile-nav-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent-light);
+      }
+
+      .mobile-nav-line {
+        display: block;
+        height: 1px;
+        margin-top: 14px;
+        background: linear-gradient(90deg, rgba(99, 102, 241, 0.6), transparent);
+      }
+
+      .nav-links.open {
+        transform: translateX(0);
+      }
+
+      .nav-links.open li {
+        animation: navItemIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        opacity: 0;
+      }
+
+      .nav-links.open li:nth-child(1) { animation-delay: 0.04s; }
+      .nav-links.open li:nth-child(2) { animation-delay: 0.08s; }
+      .nav-links.open li:nth-child(3) { animation-delay: 0.12s; }
+      .nav-links.open li:nth-child(4) { animation-delay: 0.16s; }
+      .nav-links.open li:nth-child(5) { animation-delay: 0.2s; }
+      .nav-links.open li:nth-child(6) { animation-delay: 0.24s; }
+
+      .nav-links li:not(.mobile-nav-header):not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 17px 0;
+        font-size: 1.15rem;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+      }
+
+      .nav-links a::after {
+        display: none;
+      }
+
+      .nav-links li:nth-child(2) a::before { content: '01'; }
+      .nav-links li:nth-child(3) a::before { content: '02'; }
+      .nav-links li:nth-child(4) a::before { content: '03'; }
+      .nav-links li:nth-child(5) a::before { content: '04'; }
+
+      .nav-links li:nth-child(2) a::before,
+      .nav-links li:nth-child(3) a::before,
+      .nav-links li:nth-child(4) a::before,
+      .nav-links li:nth-child(5) a::before {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--accent-light);
+        opacity: 0.7;
+        min-width: 20px;
+      }
+
+      .nav-links a.active {
+        color: #c4b5fd;
+      }
+
+      .nav-links a.active .nav-link-text {
+        background: linear-gradient(135deg, var(--accent-light), var(--gradient-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-cta {
+        margin-top: 28px;
+        width: 100%;
         justify-content: center;
-        gap: 28px;
-        transition: right 0.4s var(--transition);
-        border-left: 1px solid var(--border);
+        padding: 15px 24px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 0.9rem !important;
+        background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)) !important;
+        box-shadow: 0 8px 28px rgba(99, 102, 241, 0.35);
+      }
+
+      .menu-toggle {
+        display: flex;
+        z-index: 1001;
+      }
+
+      .menu-toggle.active {
+        border-color: rgba(129, 140, 248, 0.35);
+        background: rgba(99, 102, 241, 0.12);
       }
 
       .nav-right {
@@ -1664,15 +1825,6 @@
 
       .lang-switcher {
         order: -1;
-      }
-
-      .nav-links.open {
-        right: 0;
-      }
-
-      .menu-toggle {
-        display: flex;
-        z-index: 1001;
       }
 
       .menu-toggle.active span:nth-child(1) {
@@ -1775,6 +1927,7 @@
 
   <div class="bg-mesh"></div>
   <div class="bg-grid"></div>
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
   <!-- Navigation -->
   <nav id="navbar">
@@ -1791,14 +1944,18 @@
           <button type="button" class="lang-btn" data-lang="en">EN</button>
         </div>
         <ul class="nav-links" id="navLinks">
-          <li><a href="#about" class="active" data-i18n="nav.about">Hakkımda</a></li>
-          <li><a href="#experience" data-i18n="nav.experience">Deneyim</a></li>
-          <li><a href="#skills" data-i18n="nav.skills">Yetenekler</a></li>
-          <li><a href="#projects" data-i18n="nav.projects">Projeler</a></li>
+          <li class="mobile-nav-header" aria-hidden="true">
+            <span class="mobile-nav-label" data-i18n="nav.menuLabel">Menü</span>
+            <span class="mobile-nav-line"></span>
+          </li>
+          <li><a href="#about" class="active"><span class="nav-link-text" data-i18n="nav.about">Hakkımda</span></a></li>
+          <li><a href="#experience"><span class="nav-link-text" data-i18n="nav.experience">Deneyim</span></a></li>
+          <li><a href="#skills"><span class="nav-link-text" data-i18n="nav.skills">Yetenekler</span></a></li>
+          <li><a href="#projects"><span class="nav-link-text" data-i18n="nav.projects">Projeler</span></a></li>
           <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">İletişim →</a></li>
         </ul>
       </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menü" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -2319,6 +2476,7 @@
         'page.title': 'Abdurrahman Bilgiç — Full Stack Developer',
         'page.meta': 'Abdurrahman Bilgiç — Full Stack Developer. Frontend, backend ve gömülü sistemler alanında modern yazılım çözümleri geliştiren tutkulu bir geliştirici.',
         'nav.menuAria': 'Menü',
+        'nav.menuLabel': 'Menü',
         'nav.about': 'Hakkımda',
         'nav.experience': 'Deneyim',
         'nav.skills': 'Yetenekler',
@@ -2437,6 +2595,7 @@
         'page.title': 'Abdurrahman Bilgiç — Full Stack Developer',
         'page.meta': 'Abdurrahman Bilgiç — Full Stack Developer. A passionate developer building modern software solutions in frontend, backend, and embedded systems.',
         'nav.menuAria': 'Menu',
+        'nav.menuLabel': 'Menu',
         'nav.about': 'About',
         'nav.experience': 'Experience',
         'nav.skills': 'Skills',
@@ -2604,18 +2763,28 @@
     // Mobile menu
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function setMobileMenu(open) {
+      menuToggle.classList.toggle('active', open);
+      navLinks.classList.toggle('open', open);
+      navOverlay.classList.toggle('open', open);
+      document.body.classList.toggle('menu-open', open);
+      navOverlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
 
     menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
-      navLinks.classList.toggle('open');
-      document.body.classList.toggle('menu-open', navLinks.classList.contains('open'));
+      setMobileMenu(!navLinks.classList.contains('open'));
+    });
+
+    navOverlay.addEventListener('click', () => {
+      setMobileMenu(false);
     });
 
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('open');
-        document.body.classList.remove('menu-open');
+        setMobileMenu(false);
       });
     });
 
