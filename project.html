@@ -257,33 +257,92 @@
     }
 
     .detail-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
-    .detail-card ul {
+    .detail-card h3::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-light));
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .feature-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .detail-card li {
-      color: var(--text);
-      font-size: 0.95rem;
-      padding-left: 16px;
-      position: relative;
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: var(--transition);
     }
 
-    .detail-card li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
+    .feature-item:hover {
+      border-color: rgba(99, 102, 241, 0.28);
+      background: rgba(99, 102, 241, 0.06);
+      transform: translateX(4px);
+    }
+
+    .feature-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(99, 102, 241, 0.15);
+      border-radius: 8px;
       color: var(--accent-light);
+    }
+
+    .feature-text {
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      padding-top: 3px;
+    }
+
+    .tech-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-tag {
+      padding: 9px 18px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.22);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent-light);
+      transition: var(--transition);
+    }
+
+    .tech-tag:hover {
+      background: rgba(99, 102, 241, 0.18);
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
     }
 
     .overview {
@@ -374,143 +433,16 @@
     }
 
     @media (max-width: 768px) {
-      html {
-        scroll-padding-top: 80px;
-      }
-
-      .container {
-        width: min(900px, 90%);
-      }
-
-      .nav-inner {
-        width: min(1140px, 90%);
-      }
-
-      nav {
-        padding: 14px 0;
-      }
-
-      .logo {
-        font-size: 1.2rem;
-      }
-
-      .project-hero {
-        padding: 108px 0 40px;
-      }
-
-      .project-title {
-        font-size: clamp(2rem, 8vw, 2.8rem);
-      }
-
-      .project-summary {
-        font-size: 1rem;
-        margin-bottom: 28px;
-        max-width: 100%;
-      }
-
-      .meta-row {
-        flex-direction: column;
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
+      .detail-grid { grid-template-columns: 1fr; }
+      .back-link { display: none; }
       .project-showcase {
         flex-direction: column;
         align-items: center;
-        gap: 32px;
-        margin-bottom: 24px;
-      }
-
-      .showcase-item {
-        width: 100%;
-        max-width: 320px;
+        gap: 40px;
       }
 
       .showcase-img-wrap {
-        height: 260px;
-        width: 100%;
-      }
-
-      .showcase-item img {
-        width: auto;
-        max-width: 100%;
-        height: auto;
-        max-height: 260px;
-      }
-
-      .live-link-wrap {
-        margin-bottom: 32px;
-      }
-
-      .live-link-wrap .btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .live-link-url {
-        word-break: break-all;
-      }
-
-      .overview {
-        margin-bottom: 32px;
-      }
-
-      .overview h2 {
-        font-size: 1.5rem;
-      }
-
-      .overview p {
-        font-size: 0.98rem;
-      }
-
-      .detail-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-        margin-bottom: 32px;
-      }
-
-      .actions {
-        flex-direction: column;
-        padding-bottom: 48px;
-      }
-
-      .actions .btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .back-link {
-        display: none;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .project-hero {
-        padding-top: 96px;
-      }
-
-      .project-title {
-        font-size: clamp(1.85rem, 9vw, 2.4rem);
-      }
-
-      .showcase-img-wrap {
-        height: 220px;
-      }
-
-      .showcase-item img {
-        max-height: 220px;
-      }
-
-      .showcase-item {
-        max-width: 280px;
-      }
-
-      .detail-card h3 {
-        margin-bottom: 12px;
-      }
-
-      .detail-card li {
-        font-size: 0.9rem;
+        height: 320px;
       }
     }
   </style>
@@ -572,11 +504,11 @@
       <div class="detail-grid">
         <div class="detail-card">
           <h3 data-i18n="detail.features">Öne Çıkan Özellikler</h3>
-          <ul id="featuresList"></ul>
+          <ul class="feature-list" id="featuresList"></ul>
         </div>
         <div class="detail-card">
           <h3 data-i18n="detail.tech">Kullanılan Teknolojiler</h3>
-          <ul id="techList"></ul>
+          <ul class="tech-list" id="techList"></ul>
         </div>
       </div>
 
@@ -836,11 +768,18 @@
       document.getElementById('overview1').textContent = data.overview1;
       document.getElementById('overview2').textContent = data.overview2;
 
+      const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
       const featuresList = document.getElementById('featuresList');
-      featuresList.innerHTML = data.features.map(f => `<li>${f}</li>`).join('');
+      featuresList.innerHTML = data.features.map(f => `
+        <li class="feature-item">
+          <span class="feature-icon">${checkIcon}</span>
+          <span class="feature-text">${f}</span>
+        </li>
+      `).join('');
 
       const techList = document.getElementById('techList');
-      techList.innerHTML = project.tech.map(t => `<li>${t}</li>`).join('');
+      techList.innerHTML = project.tech.map(t => `<li class="tech-tag">${t}</li>`).join('');
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {

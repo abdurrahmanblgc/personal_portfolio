@@ -12,7 +12,7 @@
     :root {
       --bg: #0a0a0f;
       --bg-elevated: #12121a;
-      --bg-card: rgba(255, 255, 255, 0.03);
+      --bg-card: rgba(255, 255, 255, 0.03); 
       --border: rgba(255, 255, 255, 0.08);
       --text: #f4f4f5;
       --text-muted: #a1a1aa;
@@ -1627,6 +1627,46 @@
         gap: 32px;
       }
 
+      .about-image-wrap {
+        position: relative;
+        z-index: 1;
+      }
+
+      .about-image {
+        will-change: transform, opacity, clip-path;
+        border: none;
+      }
+
+      .about-content {
+        position: relative;
+        z-index: 3;
+        will-change: transform;
+        margin-top: 28px;
+        padding-top: 28px;
+        background: var(--bg);
+        border-radius: 20px 20px 0 0;
+        transition: opacity 0.8s var(--transition);
+      }
+
+      .about-content::before {
+        content: '';
+        position: absolute;
+        top: -48px;
+        left: 0;
+        right: 0;
+        height: 56px;
+        background: linear-gradient(to bottom, transparent, var(--bg));
+        pointer-events: none;
+      }
+
+      .about-image-wrap.reveal {
+        transition: opacity 0.8s var(--transition);
+      }
+
+      .about-experience {
+        will-change: opacity;
+      }
+
       .section-desc {
         max-width: 100%;
       }
@@ -2035,17 +2075,17 @@
         <h2 class="section-title" data-i18n-html="about.title">Kim <em>olduğumu</em> tanıyalım</h2>
       </div>
       <div class="about-grid">
-        <div class="about-image-wrap reveal">
-          <div class="about-image">
+        <div class="about-image-wrap reveal" id="aboutImageWrap">
+          <div class="about-image" id="aboutImage">
             <img src="img2.jpg" alt="Abdurrahman Bilgiç" />
           </div>
-          <div class="about-experience">
+          <div class="about-experience" id="aboutExperience">
             <div class="about-experience-num">4+</div>
             <span class="about-experience-divider" aria-hidden="true"></span>
             <div class="about-experience-text" data-i18n="hero.statYears">Yıl Deneyim</div>
           </div>
         </div>
-        <div class="about-content reveal">
+        <div class="about-content reveal" id="aboutContent">
           <p data-i18n="about.p1">
             Frontend, backend ve gömülü sistemler alanında HTML, CSS, JavaScript, Node.js, Java ve MySQL kullanarak dinamik ve responsive projeler geliştiren bir full-stack geliştiriciyim.
           </p>
@@ -2941,6 +2981,60 @@
     window.addEventListener('scroll', updateHeroScrollEffect, { passive: true });
     window.addEventListener('resize', updateHeroScrollEffect);
     updateHeroScrollEffect();
+
+    // About scroll effect — mobile: text slides over image, image fades from top
+    const aboutImageWrap = document.getElementById('aboutImageWrap');
+    const aboutImage = document.getElementById('aboutImage');
+    const aboutContent = document.getElementById('aboutContent');
+    const aboutExperience = document.getElementById('aboutExperience');
+
+    function resetAboutScrollEffect() {
+      if (aboutImage) {
+        aboutImage.style.opacity = '';
+        aboutImage.style.transform = '';
+        aboutImage.style.clipPath = '';
+      }
+      if (aboutContent) {
+        aboutContent.style.transform = '';
+      }
+      if (aboutExperience) {
+        aboutExperience.style.opacity = '';
+      }
+    }
+
+    function updateAboutScrollEffect() {
+      if (!aboutImageWrap || !aboutImage || !aboutContent) return;
+
+      if (window.innerWidth > 768) {
+        resetAboutScrollEffect();
+        return;
+      }
+
+      const rect = aboutImageWrap.getBoundingClientRect();
+      const triggerStart = 120;
+      const triggerEnd = -180;
+      const progress = Math.min(
+        Math.max((triggerStart - rect.top) / (triggerStart - triggerEnd), 0),
+        1
+      );
+
+      const fade = 1 - progress;
+
+      aboutImage.style.opacity = String(Math.max(fade, 0));
+      aboutImage.style.transform = `translateY(${-progress * 45}px) scale(${1 - progress * 0.05})`;
+      aboutImage.style.clipPath = `inset(${progress * 100}% 0 0 0 round ${24 - progress * 24}px ${24 - progress * 24}px 0 0)`;
+
+      const contentLift = progress * 180;
+      aboutContent.style.transform = `translateY(${-contentLift}px)`;
+
+      if (aboutExperience) {
+        aboutExperience.style.opacity = String(Math.max(fade, 0));
+      }
+    }
+
+    window.addEventListener('scroll', updateAboutScrollEffect, { passive: true });
+    window.addEventListener('resize', updateAboutScrollEffect);
+    updateAboutScrollEffect();
   </script>
 </body>
 </html>
