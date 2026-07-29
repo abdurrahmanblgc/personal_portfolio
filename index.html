@@ -1420,7 +1420,7 @@
 
       .hero-visual {
         order: -1;
-        max-width: 400px;
+        max-width: min(300px, 88vw);
         margin: 0 auto;
       }
 
@@ -1499,7 +1499,69 @@
       }
 
       .hero-visual {
-        max-width: 100%;
+        max-width: min(300px, 88vw);
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .hero-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-avatar {
+        aspect-ratio: 4 / 5;
+        max-height: 320px;
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        background: rgba(14, 14, 22, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 14px 6px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-stat {
+        padding: 6px 4px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        position: relative;
+      }
+
+      .hero-stat:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 18%;
+        height: 64%;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-stat:hover {
+        transform: none;
+        box-shadow: none;
+        background: rgba(99, 102, 241, 0.06);
+      }
+
+      .hero-stat-value {
+        font-size: 1.3rem;
+      }
+
+      .hero-stat-label {
+        font-size: 0.52rem;
+        letter-spacing: 0.06em;
+        line-height: 1.35;
+        margin-top: 3px;
       }
 
       .hero-subtitle {
@@ -1515,24 +1577,6 @@
       .hero-actions .btn {
         width: 100%;
         justify-content: center;
-      }
-
-      .hero-stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-
-      .hero-stat {
-        padding: 10px 6px;
-      }
-
-      .hero-stat-value {
-        font-size: 1.35rem;
-      }
-
-      .hero-stat-label {
-        font-size: 0.58rem;
-        letter-spacing: 0.05em;
       }
 
       .about-grid {
@@ -1688,8 +1732,16 @@
         font-size: 0.72rem;
       }
 
-      .hero-stats {
-        grid-template-columns: 1fr;
+      .hero-visual {
+        max-width: min(280px, 86vw);
+      }
+
+      .hero-avatar {
+        max-height: 280px;
+      }
+
+      .hero-stat-value {
+        font-size: 1.15rem;
       }
 
       .about-experience {
